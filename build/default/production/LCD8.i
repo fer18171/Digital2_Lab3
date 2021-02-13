@@ -2531,18 +2531,20 @@ void Lcd_Set_Cursor(char a, char b) {
 }
 
 void Lcd_Init() {
+    _delay((unsigned long)((15)*(8000000/4000.0)));
     Lcd_Port(0x00);
     _delay((unsigned long)((20)*(8000000/4000.0)));
     Lcd_Cmd(0x30);
     _delay((unsigned long)((5)*(8000000/4000.0)));
     Lcd_Cmd(0x30);
-    _delay((unsigned long)((11)*(8000000/4000.0)));
+    _delay((unsigned long)((160)*(8000000/4000000.0)));
     Lcd_Cmd(0x30);
 
     Lcd_Cmd(0x38);
-    Lcd_Cmd(0x08);
+    Lcd_Cmd(0x10);
     Lcd_Cmd(0x01);
-    Lcd_Cmd(0x07);
+    Lcd_Cmd(0x06);
+    Lcd_Cmd(0x0C);
 }
 
 void Lcd_Write_Char(char a) {

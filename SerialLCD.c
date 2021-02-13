@@ -8,9 +8,12 @@
 
 #include <xc.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <pic16f887.h>
 #include "ADC.h"
 #include "LCD8.h"
+#include "EUSART.h"
 //**************************
 //Configuration Bits
 //**************************
@@ -41,6 +44,11 @@ uint8_t Pots;
 uint8_t ADC_value1; //Variable que toma el valor del ADC luego de la conversion
 uint8_t ADC_value2; //Variable que toma el valor del ADC luego de la conversion
 uint8_t ADC_finish; // Bandera que me sirve para saber si ya se hizo la conversion
+float vol1;
+float vol2;
+uint8_t a;
+unsigned char str_vol1[64];
+unsigned char str_vol2[64];
 //**************************
 //Prototipos de Funciones
 //**************************
@@ -54,6 +62,7 @@ void main(void) {
     setup();
     ADC_setup(3, 2, 0, 0);
     Lcd_Init();
+    EUSART_conf();
     ADCON0bits.GO = 1;
     while (1) {
         if (ADC_finish == 1) { //Reviso bandera pa ver si ya puedo empezar la siguiente conversion
@@ -68,15 +77,23 @@ void main(void) {
             }
         }
         Lcd_Clear();
-        Lcd_Set_Cursor(1,1);
+        Lcd_Set_Cursor(1, 1);
         Lcd_Write_String(" S1:   S2:  S3:");
+
+        Lcd_Set_Cursor(2, 5);
+        Lcd_Write_String("V ");
+
+        Lcd_Set_Cursor(2, 11);
+        Lcd_Write_String("V ");
+        PORTC = ADC_value1;
+        
     }
 }
 
 
-//**************************
+//*****************************
 //Setup
-//**************************
+//*****************************
 
 void setup(void) {
     //Inicializar la LCD
@@ -94,6 +111,8 @@ void setup(void) {
     INTCONbits.GIE = 1;
     INTCONbits.PEIE = 1;
     Pots = 0;
+    vol1 = 0;
+    vol2 = 0;
 
 }
 
@@ -107,9 +126,17 @@ void __interrupt() oli(void) {
         if (Pots == 1) {
             Pots = 0;
             ADC_value1 = ADRESH; //Se cargan los 8 MSB del resultado al registro
+            vol1 = (ADC_value1 * 5.0) / 255;
+            sprintf(str_vol1, "%.2f", vol1);
+            Lcd_Set_Cursor(2, 1);
+            Lcd_Write_String(str_vol1);
         } else if (Pots == 0) {
             Pots = 1;
             ADC_value2 = ADRESH; //Se cargan los 8 MSB del resultado al registro
+            vol2 = (ADC_value2 * 5.0) / 255;
+            sprintf(str_vol2, "%.2f", vol2);
+            Lcd_Set_Cursor(2, 7);
+            Lcd_Write_String(str_vol2);
         }
         ADC_finish = 1;
     }

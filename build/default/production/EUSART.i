@@ -1,4 +1,4 @@
-# 1 "ADC.c"
+# 1 "EUSART.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,9 +6,16 @@
 # 1 "<built-in>" 2
 # 1 "C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "ADC.c" 2
-# 1 "./ADC.h" 1
-# 13 "./ADC.h"
+# 1 "EUSART.c" 2
+# 1 "./EUSART.h" 1
+
+
+
+
+
+
+
+
 # 1 "C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\\pic\\include\\xc.h" 1 3
 # 18 "C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -2489,247 +2496,22 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 28 "C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\\pic\\include\\xc.h" 2 3
-# 13 "./ADC.h" 2
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 1 3
-# 13 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef signed char int8_t;
-
-
-
-
-
-
-typedef signed int int16_t;
-
-
-
-
-
-
-
-typedef __int24 int24_t;
-
-
-
-
-
-
-
-typedef signed long int int32_t;
-# 52 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef unsigned char uint8_t;
-
-
-
-
-
-typedef unsigned int uint16_t;
-
-
-
-
-
-
-typedef __uint24 uint24_t;
-
-
-
-
-
-
-typedef unsigned long int uint32_t;
-# 88 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef signed char int_least8_t;
-
-
-
-
-
-
-
-typedef signed int int_least16_t;
-# 109 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef __int24 int_least24_t;
-# 118 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef signed long int int_least32_t;
-# 136 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef unsigned char uint_least8_t;
-
-
-
-
-
-
-typedef unsigned int uint_least16_t;
-# 154 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef __uint24 uint_least24_t;
-
-
-
-
-
-
-
-typedef unsigned long int uint_least32_t;
-# 181 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef signed char int_fast8_t;
-
-
-
-
-
-
-typedef signed int int_fast16_t;
-# 200 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef __int24 int_fast24_t;
-
-
-
-
-
-
-
-typedef signed long int int_fast32_t;
-# 224 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef unsigned char uint_fast8_t;
-
-
-
-
-
-typedef unsigned int uint_fast16_t;
-# 240 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef __uint24 uint_fast24_t;
-
-
-
-
-
-
-typedef unsigned long int uint_fast32_t;
-# 268 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef int32_t intmax_t;
-# 282 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 3
-typedef uint32_t uintmax_t;
-
-
-
-
-
-
-typedef int16_t intptr_t;
-
-
-
-
-typedef uint16_t uintptr_t;
-# 14 "./ADC.h" 2
-
-void ADC_setup(uint8_t ConClock, uint8_t Channel, uint8_t Format, uint8_t Vref);
-# 1 "ADC.c" 2
-
-
-void ADC_setup(uint8_t ConClock, uint8_t Channel, uint8_t Format, uint8_t Vref) {
-    switch (ConClock) {
-        case 1:
-            ADCON0bits.ADCS = 0b00;
-            break;
-        case 2:
-            ADCON0bits.ADCS = 0b01;
-            break;
-        case 3:
-            ADCON0bits.ADCS = 0b10;
-            break;
-        case 4:
-            ADCON0bits.ADCS = 0b11;
-            break;
-        default:
-            ADCON0bits.ADCS = 0b10;
-            break;
-    }
-    switch (Channel) {
-        case 0:
-            ADCON0bits.CHS = 0b0000;
-            break;
-        case 1:
-            ADCON0bits.CHS = 0b0001;
-            break;
-        case 2:
-            ADCON0bits.CHS = 0b0010;
-            break;
-        case 3:
-            ADCON0bits.CHS = 0b0011;
-            break;
-        case 4:
-            ADCON0bits.CHS = 0b0100;
-            break;
-        case 5:
-            ADCON0bits.CHS = 0b0101;
-            break;
-        case 6:
-            ADCON0bits.CHS = 0b0110;
-            break;
-        case 7:
-            ADCON0bits.CHS = 0b0111;
-            break;
-        case 8:
-            ADCON0bits.CHS = 0b1000;
-            break;
-        case 9:
-            ADCON0bits.CHS = 0b1001;
-            break;
-        case 10:
-            ADCON0bits.CHS = 0b1010;
-            break;
-        case 11:
-            ADCON0bits.CHS = 0b1011;
-            break;
-        case 12:
-            ADCON0bits.CHS = 0b1100;
-            break;
-        case 13:
-            ADCON0bits.CHS = 0b1101;
-            break;
-        case 14:
-            ADCON0bits.CHS = 0b1110;
-            break;
-        case 15:
-            ADCON0bits.CHS = 0b1111;
-            break;
-        default:
-            ADCON0bits.CHS = 0b0000;
-            break;
-    }
-    if (Format == 1) {
-        ADCON1bits.ADFM = 1;
-    } else {
-        ADCON1bits.ADFM = 0;
-    }
-    switch (Vref) {
-        case 1:
-            ADCON1bits.VCFG0 = 0;
-            ADCON1bits.VCFG1 = 0;
-            break;
-        case 2:
-            ADCON1bits.VCFG0 = 1;
-            ADCON1bits.VCFG1 = 1;
-            break;
-        case 3:
-            ADCON1bits.VCFG0 = 0;
-            ADCON1bits.VCFG1 = 1;
-            break;
-        case 4:
-            ADCON1bits.VCFG0 = 1;
-            ADCON1bits.VCFG1 = 0;
-            break;
-        default:
-            ADCON1bits.VCFG0 = 0;
-            ADCON1bits.VCFG1 = 0;
-            break;
-    }
-    ADCON0bits.ADON=1;
-    INTCONbits.GIE=1;
-    INTCONbits.PEIE=1;
-    PIE1bits.ADIE=1;
+# 9 "./EUSART.h" 2
+
+
+void EUSART_conf(void);
+# 1 "EUSART.c" 2
+
+
+void EUSART_conf(void){
+    TXSTAbits.TXEN=1;
+    TXSTAbits.SYNC=0;
+    RCSTAbits.SPEN=1;
+    TXSTAbits.TX9=0;
+    RCSTAbits.RC9=0;
+    BAUDCTLbits.BRG16 = 0;
+    SPBRG = 8000000/(16*(9600+1));
+    TXSTAbits.BRGH=1;
+    SPBRGH = 0;
+    RCSTAbits.CREN=1;
 }
