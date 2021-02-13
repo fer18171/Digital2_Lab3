@@ -58,6 +58,20 @@ Version 4.0 HI-TECH Software Intermediate Code
 "2704
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 2704: extern volatile unsigned char SPBRGH __attribute__((address(0x09A)));
 [v _SPBRGH `Vuc ~T0 @X0 0 e@154 ]
+"543
+[; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 543:     struct {
+[s S19 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S19 . TMR1IF TMR2IF CCP1IF SSPIF TXIF RCIF ADIF ]
+"542
+[; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 542: typedef union {
+[u S18 `S19 1 ]
+[n S18 . . ]
+"553
+[; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 553: extern volatile PIR1bits_t PIR1bits __attribute__((address(0x00C)));
+[v _PIR1bits `VS18 ~T0 @X0 0 e@12 ]
+"1140
+[; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 1140: extern volatile unsigned char RCREG __attribute__((address(0x01A)));
+[v _RCREG `Vuc ~T0 @X0 0 e@26 ]
 "54 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h
 [; ;C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 54: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -331,4 +345,45 @@ Version 4.0 HI-TECH Software Intermediate Code
 "14
 [; ;EUSART.c: 14: }
 [e :UE 138 ]
+}
+"16
+[; ;EUSART.c: 16: char Receive(void){
+[v _Receive `(uc ~T0 @X0 1 ef ]
+{
+[e :U _Receive ]
+[f ]
+"17
+[; ;EUSART.c: 17:     if (RCSTAbits.OERR){
+[e $ ! != -> . . _RCSTAbits 0 1 `i -> 0 `i 140  ]
+{
+"18
+[; ;EUSART.c: 18:         RCSTAbits.CREN=0;
+[e = . . _RCSTAbits 0 4 -> -> 0 `i `uc ]
+"19
+[; ;EUSART.c: 19:         RCSTAbits.CREN=1;
+[e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
+"20
+[; ;EUSART.c: 20:     }
+}
+[e :U 140 ]
+"21
+[; ;EUSART.c: 21:     while (PIR1bits.RCIF==0){
+[e $U 141  ]
+[e :U 142 ]
+{
+"22
+[; ;EUSART.c: 22:     }
+}
+[e :U 141 ]
+"21
+[; ;EUSART.c: 21:     while (PIR1bits.RCIF==0){
+[e $ == -> . . _PIR1bits 0 5 `i -> 0 `i 142  ]
+[e :U 143 ]
+"23
+[; ;EUSART.c: 23:     return RCREG;
+[e ) -> _RCREG `uc ]
+[e $UE 139  ]
+"24
+[; ;EUSART.c: 24: }
+[e :UE 139 ]
 }

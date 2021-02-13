@@ -12,3 +12,13 @@ void EUSART_conf(void){
     SPBRGH = 0;
     RCSTAbits.CREN=1;
 }
+
+char Receive(void){
+    if (RCSTAbits.OERR){
+        RCSTAbits.CREN=0;
+        RCSTAbits.CREN=1;
+    }
+    while (PIR1bits.RCIF==0){
+    }
+    return RCREG;
+}

@@ -44,11 +44,15 @@ uint8_t Pots;
 uint8_t ADC_value1; //Variable que toma el valor del ADC luego de la conversion
 uint8_t ADC_value2; //Variable que toma el valor del ADC luego de la conversion
 uint8_t ADC_finish; // Bandera que me sirve para saber si ya se hizo la conversion
+uint8_t contador;
 float vol1;
 float vol2;
 uint8_t a;
-unsigned char str_vol1[64];
-unsigned char str_vol2[64];
+unsigned char str_vol1[20];
+unsigned char str_vol2[20];
+unsigned char str_contador[20];
+unsigned char comando;
+
 //**************************
 //Prototipos de Funciones
 //**************************
@@ -76,17 +80,36 @@ void main(void) {
                 ADCON0bits.GO = 1;
             }
         }
+        if (comando=='+'){
+            contador+=1;
+        }
+        else if (comando=='-'){
+            contador-=1;
+        }
+        
+      
+        
         Lcd_Clear();
         Lcd_Set_Cursor(1, 1);
         Lcd_Write_String(" S1:   S2:  S3:");
-
+        vol1 = (ADC_value1 * 5.0) / 255;
+        sprintf(str_vol1, "%.2f", vol1);
+        Lcd_Set_Cursor(2, 1);
+        Lcd_Write_String(str_vol1);
         Lcd_Set_Cursor(2, 5);
         Lcd_Write_String("V ");
-
+        vol2 = (ADC_value2 * 5.0) / 255;
+        sprintf(str_vol2, "%.2f", vol2);
+        Lcd_Set_Cursor(2, 7);
+        Lcd_Write_String(str_vol2);
         Lcd_Set_Cursor(2, 11);
         Lcd_Write_String("V ");
-        PORTC = ADC_value1;
         
+        //Imprimir contador
+        sprintf(str_contador, "%i", contador);
+        Lcd_Set_Cursor(2, 13);
+        Lcd_Write_String(str_contador);
+
     }
 }
 
@@ -99,6 +122,7 @@ void setup(void) {
     //Inicializar la LCD
     //Configurar puertos
     TRISC = 0;
+    TRISCbits.TRISC7=1;
     TRISD = 0;
     ANSEL = 0;
     ANSELH = 0;
@@ -126,19 +150,18 @@ void __interrupt() oli(void) {
         if (Pots == 1) {
             Pots = 0;
             ADC_value1 = ADRESH; //Se cargan los 8 MSB del resultado al registro
-            vol1 = (ADC_value1 * 5.0) / 255;
-            sprintf(str_vol1, "%.2f", vol1);
-            Lcd_Set_Cursor(2, 1);
-            Lcd_Write_String(str_vol1);
+
         } else if (Pots == 0) {
             Pots = 1;
             ADC_value2 = ADRESH; //Se cargan los 8 MSB del resultado al registro
-            vol2 = (ADC_value2 * 5.0) / 255;
-            sprintf(str_vol2, "%.2f", vol2);
-            Lcd_Set_Cursor(2, 7);
-            Lcd_Write_String(str_vol2);
+
         }
         ADC_finish = 1;
+    }
+    else if (PIR1bits.RCIF){
+        comando=Receive();
+        __delay_us(300);
+        PIR1bits.RCIF=0;
     }
 
 }

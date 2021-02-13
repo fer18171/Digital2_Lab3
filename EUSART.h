@@ -9,6 +9,7 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 
 void EUSART_conf(void);
+char Receive(void);
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 

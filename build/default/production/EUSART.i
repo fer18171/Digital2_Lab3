@@ -2500,6 +2500,7 @@ extern __bank0 __bit __timeout;
 
 
 void EUSART_conf(void);
+char Receive(void);
 # 1 "EUSART.c" 2
 
 
@@ -2514,4 +2515,14 @@ void EUSART_conf(void){
     TXSTAbits.BRGH=1;
     SPBRGH = 0;
     RCSTAbits.CREN=1;
+}
+
+char Receive(void){
+    if (RCSTAbits.OERR){
+        RCSTAbits.CREN=0;
+        RCSTAbits.CREN=1;
+    }
+    while (PIR1bits.RCIF==0){
+    }
+    return RCREG;
 }
